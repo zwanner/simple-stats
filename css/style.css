@@ -1,0 +1,14 @@
+* {
+    opacity: 1;
+}
+
+.background-main {
+  background-color: #e5e5f7;
+  opacity: 1;
+  background-image: radial-gradient(#0d6efd 0.75px, #e5e5f7 0.75px);
+  background-size: 15px 15px;
+}
+
+.data-button {
+    width: 45%;
+}
