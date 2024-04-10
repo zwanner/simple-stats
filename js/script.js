@@ -21,7 +21,7 @@ const chart = Highcharts.chart('HLTVGraph', {
     },
     series: [{
         name: 'HTLV Rating',
-        data: data.hltvRating
+        data: data.hltvRating 
     }]
 });
 
@@ -129,72 +129,8 @@ Highcharts.chart('ratingPerMapGraph', {
     }]
 });
 
-Highcharts.chart('winpercentagePerMap', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Win % per Map'
-    },
-    xAxis: {
-        type: 'category',
-        labels: {
-            autoRotation: [-45, -90],
-            style: {
-                fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
-            }
-        }
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'Win %'
-        }
-    },
-    legend: {
-        enabled: false
-    },
-    tooltip: {
-        pointFormat: "<b>{point.y:.2f}</b>"
-    },
-    series: [
-        {
-            name: 'Maps',
-            colors: [
-                '#9b20d9', '#9215ac', '#861ec9', '#7a17e6', '#7010f9', '#691af3',
-                '#6225ed', '#5b30e7', '#533be1', '#4c46db', '#4551d5', '#3e5ccf',
-                '#3667c9', '#2f72c3', '#277dbd', '#1f88b7', '#1693b1', '#0a9eaa',
-                '#03c69b', '#00f194'
-            ],
-            colorByPoint: true,
-            groupPadding: 0,
-            data: [
-                ['Overpass', getWinLossRatio('Overpass')],
-                ['Anubis', getWinLossRatio('Anubis')],
-                ['Nuke', getWinLossRatio('Nuke')],
-                ['Mirage', getWinLossRatio('Mirage')],
-                ['Ancient', getWinLossRatio('Ancient')],
-                ['Inferno', getWinLossRatio('Inferno')],
-                ['Vertigo', getWinLossRatio('Vertigo')],
-            ],
-            dataLabels: {
-                enabled: true,
-                // rotation: -90,
-                color: '#FFFFFF',
-                inside: true,
-                verticalAlign: 'top',
-                format: '{point.y:.2f}', // one decimal
-                y: 10, // 10 pixels down from the top
-                style: {
-                    fontSize: '13px',
-                    fontFamily: 'Verdana, sans-serif'
-                }
-            }
-        }]
-});
 
-// Data retrieved from https://netmarketshare.com/
+
 Highcharts.chart('winLossGraph', {
     chart: {
         plotBackgroundColor: null,
@@ -238,6 +174,11 @@ Highcharts.chart('winLossGraph', {
         type: 'pie',
         name: 'Win/Loss Ratio',
         innerSize: '50%',
+        colors: [
+            '#9b20d9',
+            '#6225ed', 
+            '#3e5ccf'
+        ],
         data: [
             ['Wins', data.winLoss.filter(x => x === 1).length],
             ['Losses', data.winLoss.filter(x => x === 0).length],
@@ -245,6 +186,99 @@ Highcharts.chart('winLossGraph', {
         ]
     }]
 });
+
+
+
+
+// Create the chart
+Highcharts.chart('winpercentagePerMapBarChart', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        align: 'center',
+        text: 'Win Percentage per Map'
+    },
+    accessibility: {
+        announceNewData: {
+            enabled: true
+        }
+    },
+    xAxis: {
+        type: 'category'
+    },
+    yAxis: {
+        title: {
+            text: 'Win Percentage'
+        }
+
+    },
+    legend: {
+        enabled: false
+    },
+    plotOptions: {
+        series: {
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true,
+                format: '{point.y:.1f}%'
+            }
+        }
+    },
+
+    tooltip: {
+        headerFormat: '<span style="font-size:11px">{series.name}</span><br>',
+        pointFormat: '<span style="color:{point.color}">{point.name}</span>: <b>{point.y:.1f}%</b> of matches<br/>'
+    },
+
+    series: [
+        {
+            name: 'Map Win Percentage',
+            colorByPoint: true,
+            colors: [
+                '#9b20d9', '#9215ac', '#861ec9', '#7a17e6', '#7010f9', '#691af3',
+                '#6225ed', '#5b30e7', '#533be1', '#4c46db', '#4551d5', '#3e5ccf',
+                '#3667c9', '#2f72c3', '#277dbd', '#1f88b7', '#1693b1', '#0a9eaa',
+                '#03c69b', '#00f194'
+            ],
+            data: [
+                {
+                    name: 'Overpass',
+                    y: getWinLossRatio('Overpass')*100,
+                },
+                {
+                    name: 'Anubis',
+                    y: getWinLossRatio('Anubis')*100,
+                },
+                {
+                    name: 'Nuke',
+                    y: getWinLossRatio('Nuke')*100,
+                },
+                {
+                    name: 'Mirage',
+                    y: getWinLossRatio('Mirage')*100,
+                },
+                {
+                    name: 'Ancient',
+                    y: getWinLossRatio('Ancient')*100,
+                },
+                {
+                    name: 'Inferno',
+                    y: getWinLossRatio('Inferno')*100,
+                },
+                {
+                    name: 'Vertigo',
+                    y: getWinLossRatio('Vertigo')*100,
+                }
+            ]
+        }
+    ]
+    
+});
+
+
+
+
 
 
 function renderStats() {
@@ -264,7 +298,7 @@ function renderStats() {
     let kda = data.kills.reduce((a, b) => a + b, 0) / data.deaths.reduce((a, b) => a + b, 0);
     tempData = document.createElement('p');
     tempData.classList.add('col', "p-1", "bg-warning", "text-white", "rounded", "m-1");
-    tempData.textContent = `KDA: ${kda}`;
+    tempData.textContent = `KDA: ${kda.toFixed(2)}`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('div');
@@ -273,7 +307,11 @@ function renderStats() {
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
-    tempData.textContent = `Average HLTV Rating: ${getAverageRating()}`;
+    tempData.textContent = `Average ADR: ${(data.adr.reduce((a, b) => a + b, 0) / data.adr.length).toFixed(2)}`;
+    kdaStats.appendChild(tempData);
+
+    tempData = document.createElement('p');
+    tempData.textContent = `Average HLTV Rating: ${getAverageRating().toFixed(2)}`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
@@ -299,8 +337,9 @@ addDataButton.addEventListener('click', function () {
     const winLoss = document.getElementById('winLoss').value;
     const kills = parseInt(document.getElementById('kills').value);
     const deaths = parseInt(document.getElementById('deaths').value);
-    console.log(`Date: ${date}, HLTV Rating: ${hltvRating}, Map: ${map}, WinLoss: ${winLoss} Kills: ${kills} Deaths: ${deaths}`);
-    if (!date || !hltvRating || !map || !winLoss || !kills) {
+    const adr = parseFloat(document.getElementById('adr').value);
+    console.log(`Date: ${date}, HLTV Rating: ${hltvRating}, ADR: ${adr}, Map: ${map}, WinLoss: ${winLoss} Kills: ${kills} Deaths: ${deaths}`);
+    if (!date || !hltvRating || !map || !winLoss || !kills || !deaths || !adr) {
         alert('Please fill out all fields');
         return;
     }
@@ -310,6 +349,7 @@ addDataButton.addEventListener('click', function () {
     data.winLoss.push(parseFloat(winLoss));
     data.kills.push(kills);
     data.deaths.push(deaths);
+    data.adr.push(adr);
     //data.leetifyRating.push(parseFloat(leetifyRating));
     localStorage.setItem('data', JSON.stringify(data));
     window.location.reload();
@@ -422,7 +462,9 @@ function resetData() {
         "kills": [
         ],
         "deaths": [
-        ]
+        ],
+        "adr": [
+        ],
     };
 
     localStorage.setItem('data', JSON.stringify(data));
@@ -433,3 +475,13 @@ function init() {
 }
 
 init();
+
+resetStatsButton = document.getElementById('resetStats');
+resetStatsButton.addEventListener('click', function () {
+    const confirmReset = confirm('Are you sure you want to reset all data?');
+    if (!confirmReset) {
+        return;
+    }
+    resetData();
+    window.location.reload();
+});
