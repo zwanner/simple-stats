@@ -21,7 +21,7 @@ const chart = Highcharts.chart('HLTVGraph', {
     },
     series: [{
         name: 'HTLV Rating',
-        data: data.hltvRating 
+        data: data.hltvRating
     }]
 });
 
@@ -176,7 +176,7 @@ Highcharts.chart('winLossGraph', {
         innerSize: '50%',
         colors: [
             '#9b20d9',
-            '#6225ed', 
+            '#6225ed',
             '#3e5ccf'
         ],
         data: [
@@ -244,36 +244,36 @@ Highcharts.chart('winpercentagePerMapBarChart', {
             data: [
                 {
                     name: 'Overpass',
-                    y: getWinLossRatio('Overpass')*100,
+                    y: getWinLossRatio('Overpass') * 100,
                 },
                 {
                     name: 'Anubis',
-                    y: getWinLossRatio('Anubis')*100,
+                    y: getWinLossRatio('Anubis') * 100,
                 },
                 {
                     name: 'Nuke',
-                    y: getWinLossRatio('Nuke')*100,
+                    y: getWinLossRatio('Nuke') * 100,
                 },
                 {
                     name: 'Mirage',
-                    y: getWinLossRatio('Mirage')*100,
+                    y: getWinLossRatio('Mirage') * 100,
                 },
                 {
                     name: 'Ancient',
-                    y: getWinLossRatio('Ancient')*100,
+                    y: getWinLossRatio('Ancient') * 100,
                 },
                 {
                     name: 'Inferno',
-                    y: getWinLossRatio('Inferno')*100,
+                    y: getWinLossRatio('Inferno') * 100,
                 },
                 {
                     name: 'Vertigo',
-                    y: getWinLossRatio('Vertigo')*100,
+                    y: getWinLossRatio('Vertigo') * 100,
                 }
             ]
         }
     ]
-    
+
 });
 
 
@@ -564,3 +564,29 @@ resetStatsButton.addEventListener('click', function () {
     resetData();
     window.location.reload();
 });
+
+const searchUserButton = document.getElementById('searchUser');
+searchUserButton.addEventListener('click', function () {
+    const user = document.getElementById('search').value;
+    setUser(user);
+});
+
+function setUser(user) {
+    localStorage.setItem('user', user);
+    window.location.reload();
+}
+
+
+// function collectData(data) {
+//     localStorage.setItem('steamData', JSON.stringify(data));
+// }
+
+
+// fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${apiKey}&steamid=${steamID}>&appid=730`, { mode: 'no-cors' })
+//     .then(response => {
+//         console.log(response);
+//     })
+//     .then(data => { collectData(data) });
+
+
+
