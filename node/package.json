@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "csgo": "^1.5.15",
+    "node-steam": "^0.0.1"
+  }
+}
