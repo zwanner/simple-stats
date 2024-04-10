@@ -382,7 +382,9 @@ function resetData() {
             1.42,
             1.37,
             1.08,
-            1.18
+            1.18,
+            0.97,
+            0.88
         ],
         "dates": [
             "2024-04-02",
@@ -403,6 +405,8 @@ function resetData() {
             "2024-04-04",
             "2024-04-04",
             "2024-04-04",
+            "2024-04-09",
+            "2024-04-09",
             "2024-04-09",
             "2024-04-09",
             "2024-04-09",
@@ -432,6 +436,8 @@ function resetData() {
             "Overpass",
             "Inferno",
             "Mirage",
+            "Inferno",
+            "Overpass",
             "Inferno"
         ],
         "winLoss": [
@@ -457,13 +463,15 @@ function resetData() {
             0,
             1,
             0,
+            0,
+            0.5,
             0
         ],
-        "kills": [
+        "kills": [19, 13
         ],
-        "deaths": [
+        "deaths": [23, 18
         ],
-        "adr": [
+        "adr": [73.5, 56.73
         ],
     };
 

@@ -1,22 +1,22 @@
 const firebaseConfig = {
 
     apiKey: "AIzaSyAbw3z6E8CtpEjtmMeCMUbW_00X9VKgUcY",
-  
+
     authDomain: "simple-stats-8f46a.firebaseapp.com",
-  
+
     databaseURL: "https://simple-stats-8f46a-default-rtdb.firebaseio.com",
-  
+
     projectId: "simple-stats-8f46a",
-  
+
     storageBucket: "simple-stats-8f46a.appspot.com",
-  
+
     messagingSenderId: "193913248538",
-  
+
     appId: "1:193913248538:web:8260d4e5326abf21edeaa3",
-  
+
     measurementId: "G-34N2P8M2Y1"
-  
-  };
+
+};
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
@@ -38,8 +38,13 @@ function storeData(data) {
 
 const storetoDB = document.getElementById('storetoDB');
 storetoDB.addEventListener('click', () => {
+    const confirmStore = confirm("Are you sure you want to store the data? \nThis will overwrite the current data in the database with the data in the local storage.");
+    if (!confirmStore) {
+        return;
+    }
     let data = JSON.parse(localStorage.getItem("data"));
     storeData(data);
+
 });
 
 
