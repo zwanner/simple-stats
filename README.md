@@ -2,7 +2,7 @@
 ## Description
  ![License](https://img.shields.io/badge/License-MIT-blue.svg)
  
- Simple Stats is a very simple implementation of a Counter Strike stats tracker. Data from each game is currently entered in manually, and data is saved in localstorage.
+ Simple Stats is a very simple implementation of a Counter Strike stats tracker. Data from each game is currently entered in manually, and saved to a Firebase DB.
 ## Table of Contents
  * [Installation](#installation)
  * [License](#license)
