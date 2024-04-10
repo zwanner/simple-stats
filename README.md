@@ -5,7 +5,6 @@
  Simple Stats is a very simple implementation of a Counter Strike stats tracker. Data from each game is currently entered in manually, and data is saved in localstorage.
 ## Table of Contents
  * [Installation](#installation)
- * [Usage](#usage)
  * [License](#license)
  * [Contributing](#contributing)
  * [Tests](#tests)
