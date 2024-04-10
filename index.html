@@ -41,36 +41,13 @@
                         <h3>Add Data</h3>
                     </div>
                     <div class="card-body container">
-                        <button type="button" class="btn btn-primary data-button m-1" data-bs-toggle="modal"
-                            data-bs-target="#addData" id="addDataBtn">
-                            Add Data
-                        </button>
-                        <button type="button" class="btn btn-primary data-button m-1" data-bs-toggle="modal"
-                            data-bs-target="#uploadDemo">
-                            Upload Demo
-                        </button>
-
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false"
-                            tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Event</h1>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                            aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary"
-                                            data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary btn-purple"
-                                            id="modalAddDataBtn">Create
-                                            Event</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <input type="date" class="form-control m-1" id="date" placeholder="Date">
+                            <input type="text" class="form-control m-1" id="hltvRating" placeholder="HLTV Rating">
+                            <input type="text" class="form-control m-1" id="kills" placeholder="Kills">
+                            <input type="text" class="form-control m-1" id="deaths" placeholder="Deaths">
+                            <input type="text" class="form-control m-1" id="map" placeholder="Map">
+                            <input type="text" class="form-control m-1" id="winLoss" placeholder="Win or Loss (0/1)">
+                            <button type="submit" class="btn btn-primary m-1" id="addData">Add Data</button>
                     </div>
                 </div>
             </div>
@@ -79,7 +56,12 @@
                     <div class="card-body">
                         <div id="HLTVGraph"></div>
                     </div>
-
+                    <div class="card-body text-center">
+                        <div id="ratingPerMapGraph"></div>
+                    </div> 
+                    <div class="card-body text-center">
+                        <div id="winpercentagePerMap"></div>
+                    </div> 
                 </div>
             </div>
             <div class="col-4">
@@ -87,8 +69,11 @@
                     <div class="card-header text-center">
                         <h3>Stats</h3>
                     </div>
-                    <div class="card-body">
-
+                    <div class="card-body text-center">
+                        <div id="winLossGraph"></div>
+                    </div> 
+                    <div class="card-body text-center">
+                        <div class="container row" id="kdaStats"></div>
                     </div>
                 </div>
             </div>
