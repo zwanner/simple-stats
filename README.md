@@ -11,6 +11,7 @@
  * [Questions](#questions)
 ## Installation
  Use the Github pages or download and open the 'index.html' in your browser.
+ [Live Page](https://zwanner.github.io/simple-stats/)
 ## License
     This project is licensed under the MIT license.
  [License](https://opensource.org/licenses/MIT)
