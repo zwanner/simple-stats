@@ -39,9 +39,13 @@ function setUser(user) {
 }
 
 function getUser() {
+    if (!localStorage.getItem('user')) {
+        setUser(prompt('Please enter your username'));
+    }
     console.log(localStorage.getItem('user'));
     return localStorage.getItem('user');
 }
+
 
 let user = getUser();
 
