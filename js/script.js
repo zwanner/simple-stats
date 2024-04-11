@@ -106,9 +106,40 @@ const chart = Highcharts.chart('HLTVGraph', {
             text: 'Rating'
         }
     },
+    tooltip: {
+        shared: true,
+        crosshairs: true,
+        //round down to 2 decimal places
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y:.2f}</b><br/>'
+    },
     series: [{
         name: 'HTLV Rating',
         data: data[user].hltvRating
+    },
+    {
+        name: "K/D Ratio",
+        data: data[user].kills.map((x, i) => x / data[user].deaths[i])
+    }]
+});
+
+Highcharts.chart('ADRGraph', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: 'ADR over time'
+    },
+    xAxis: {
+        categories: dates,
+    },
+    yAxis: {
+        title: {
+            text: 'ADR'
+        }
+    },
+    series: [{
+        name: 'ADR',
+        data: data[user].adr
     }]
 });
 
@@ -202,14 +233,13 @@ Highcharts.chart('ratingPerMapGraph', {
         dataLabels: {
             enabled: true,
             // rotation: -90,
-            color: '#FFFFFF',
+            color: '#000000',
             inside: true,
             verticalAlign: 'top',
             format: '{point.y:.2f}', // one decimal
-            y: 10, // 10 pixels down from the top
+            y: -25, // 10 pixels down from the top
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
             }
         }
     }]
@@ -307,7 +337,10 @@ Highcharts.chart('winpercentagePerMapBarChart', {
             borderWidth: 0,
             dataLabels: {
                 enabled: true,
-                format: '{point.y:.1f}%'
+                format: '{point.y:.1f}%',
+                style: {
+                    fontSize: '13px',
+                }
             }
         }
     },
