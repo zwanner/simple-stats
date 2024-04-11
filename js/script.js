@@ -165,7 +165,6 @@ Highcharts.chart('ratingPerMapGraph', {
             autoRotation: [-45, -90],
             style: {
                 fontSize: '13px',
-                fontFamily: 'Verdana, sans-serif'
             }
         }
     },
