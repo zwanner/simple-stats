@@ -414,13 +414,20 @@ function renderStats() {
 const addDataButton = document.getElementById('addData');
 addDataButton.addEventListener('click', function () {
     const date = document.getElementById('date').value;
+    document.getElementById('date').value = '';
     const hltvRating = parseFloat(document.getElementById('hltvRating').value);
+    document.getElementById('hltvRating').value = '';
     //const leetifyRating = document.getElementById('leetifyRating').value;
     const map = document.getElementById('map').value;
+    document.getElementById('map').value = '';
     const winLoss = document.getElementById('winLoss').value;
+    document.getElementById('winLoss').value = '';
     const kills = parseInt(document.getElementById('kills').value);
+    document.getElementById('kills').value = '';
     const deaths = parseInt(document.getElementById('deaths').value);
+    document.getElementById('deaths').value = '';
     const adr = parseFloat(document.getElementById('adr').value);
+    document.getElementById('adr').value = '';
     console.log(`Date: ${date}, HLTV Rating: ${hltvRating}, ADR: ${adr}, Map: ${map}, WinLoss: ${winLoss} Kills: ${kills} Deaths: ${deaths}`);
     if (!date || !hltvRating || !map || !winLoss || !kills || !deaths || !adr) {
         alert('Please fill out all fields');
