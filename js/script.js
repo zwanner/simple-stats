@@ -1,7 +1,63 @@
 
-// let data = JSON.parse(localStorage.getItem('data'));
 let data = JSON.parse(localStorage.getItem('data'));
 let dates = data.dates;
+
+const firebaseConfig = {
+
+    apiKey: "AIzaSyAbw3z6E8CtpEjtmMeCMUbW_00X9VKgUcY",
+
+    authDomain: "simple-stats-8f46a.firebaseapp.com",
+
+    databaseURL: "https://simple-stats-8f46a-default-rtdb.firebaseio.com",
+
+    projectId: "simple-stats-8f46a",
+
+    storageBucket: "simple-stats-8f46a.appspot.com",
+
+    messagingSenderId: "193913248538",
+
+    appId: "1:193913248538:web:8260d4e5326abf21edeaa3",
+
+    measurementId: "G-34N2P8M2Y1"
+
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
+// function guidGenerator() {
+//     var S4 = function () {
+//         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+//     };
+//     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
+// }
+
+
+function storeData(data) {
+    let database_ref = database.ref();
+    database_ref.child('data').set(data);
+    console.log("Data stored: " + JSON.stringify(data));
+}
+
+
+
+function loadData() {
+    let database_ref = database.ref();
+    database_ref.child('data').get().then((snapshot) => {
+        if (snapshot.exists()) {
+            // console.log("Data loaded: " + JSON.stringify(snapshot.val()));
+            localStorage.setItem("data", JSON.stringify(snapshot.val()));
+            return snapshot.val();
+        } else {
+            console.log("No data available");
+        }
+    }).catch((error) => {
+        console.error(error);
+    });
+}
+
+loadData();
 
 
 const chart = Highcharts.chart('HLTVGraph', {
@@ -140,7 +196,7 @@ Highcharts.chart('winLossGraph', {
     title: {
         text: 'Wins and Losses',
         align: 'center',
-        verticalAlign: 'middle',
+        verticalAlign: 'top',
         y: 60,
         style: {
             fontSize: '1.1em'
@@ -346,224 +402,13 @@ addDataButton.addEventListener('click', function () {
     data.kills.push(kills);
     data.deaths.push(deaths);
     data.adr.push(adr);
+    console.log(data);
     //data.leetifyRating.push(parseFloat(leetifyRating));
     localStorage.setItem('data', JSON.stringify(data));
+    storeData(data);
     window.location.reload();
 });
 
-
-
-function resetData() {
-    data = {
-        "hltvRating": [
-            1.23,
-            1.39,
-            1.07,
-            1.04,
-            1.4,
-            1.2,
-            1.21,
-            0.86,
-            1.61,
-            1.08,
-            1.1,
-            1.24,
-            0.95,
-            1.21,
-            1.29,
-            1.47,
-            0.96,
-            1.14,
-            0.84,
-            1.42,
-            1.37,
-            1.08,
-            1.18,
-            0.97,
-            0.88
-        ],
-        "dates": [
-            "2024-04-02",
-            "2024-04-02",
-            "2024-04-02",
-            "2024-04-02",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-03",
-            "2024-04-04",
-            "2024-04-04",
-            "2024-04-04",
-            "2024-04-04",
-            "2024-04-09",
-            "2024-04-09",
-            "2024-04-09",
-            "2024-04-09",
-            "2024-04-09",
-            "2024-04-09",
-            "2024-04-09"
-        ],
-        "maps": [
-            "Overpass",
-            "Anubis",
-            "Nuke",
-            "Mirage",
-            "Overpass",
-            "Overpass",
-            "Ancient",
-            "Nuke",
-            "Inferno",
-            "Anubis",
-            "Mirage",
-            "Mirage",
-            "Mirage",
-            "Ancient",
-            "Overpass",
-            "Ancient",
-            "Mirage",
-            "Mirage",
-            "Mirage",
-            "Overpass",
-            "Inferno",
-            "Mirage",
-            "Inferno",
-            "Overpass",
-            "Inferno"
-        ],
-        "winLoss": [
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            1,
-            0,
-            0,
-            0,
-            1,
-            1,
-            0,
-            0.5,
-            0,
-            0,
-            1,
-            0,
-            0,
-            0.5,
-            0
-        ],
-        "kills": [
-            21,
-            22,
-            18,
-            17,
-            11,
-            17,
-            21,
-            14,
-            15,
-            17,
-            19,
-            15,
-            16,
-            25,
-            18,
-            19,
-            11,
-            22,
-            11,
-            21,
-            22,
-            18,
-            21,
-            19,
-            13
-        ],
-        "deaths": [
-            20,
-            19,
-            18,
-            16,
-            10,
-            13,
-            18,
-            15,
-            8,
-            17,
-            16,
-            12,
-            15,
-            18,
-            15,
-            13,
-            15,
-            21,
-            14,
-            16,
-            13,
-            21,
-            17,
-            23,
-            18
-        ],
-        "adr": [
-            100.53,
-            106.04,
-            81.7,
-            82.77,
-            86.87,
-            86,
-            87.12,
-            62.6,
-            101.75,
-            85.54,
-            78.68,
-            86.77,
-            56.09,
-            85,
-            91.58,
-            88.5,
-            73.23,
-            94.96,
-            70.64,
-            113.9,
-            90.65,
-            97.36,
-            93.58,
-            73.5,
-            56.73
-        ],
-    };
-
-    localStorage.setItem('data', JSON.stringify(data));
-}
-
-function init() {
-    renderStats();
-}
-
-init();
-
-resetStatsButton = document.getElementById('resetStats');
-resetStatsButton.addEventListener('click', function () {
-    const confirmReset = confirm('Are you sure you want to reset all data?');
-    if (!confirmReset) {
-        return;
-    }
-    resetData();
-    window.location.reload();
-});
 
 const searchUserButton = document.getElementById('searchUser');
 searchUserButton.addEventListener('click', function () {
@@ -576,17 +421,17 @@ function setUser(user) {
     window.location.reload();
 }
 
-
-// function collectData(data) {
-//     localStorage.setItem('steamData', JSON.stringify(data));
-// }
-
-
 // fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${apiKey}&steamid=${steamID}>&appid=730`, { mode: 'no-cors' })
 //     .then(response => {
 //         console.log(response);
 //     })
 //     .then(data => { collectData(data) });
+
+function init() {
+    renderStats();
+}
+
+init();
 
 
 

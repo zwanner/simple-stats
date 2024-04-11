@@ -64,3 +64,5 @@ function loadData() {
 }
 
 loadData();
+
+export { storeData, loadData};
