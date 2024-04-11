@@ -1,6 +1,6 @@
 
 let data = JSON.parse(localStorage.getItem('data'));
-let dates = data.dates;
+
 
 const firebaseConfig = {
 
@@ -33,24 +33,48 @@ const database = firebase.database();
 //     return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
 // }
 
+function setUser(user) {
+    localStorage.setItem('user', user);
+    window.location.reload();
+}
+
+function getUser() {
+    console.log(localStorage.getItem('user'));
+    return localStorage.getItem('user');
+}
+
+let user = getUser();
+
+
 
 function storeData(data) {
     let database_ref = database.ref();
-    database_ref.child('data').set(data);
+    database_ref.child(user).set(data);
     console.log("Data stored: " + JSON.stringify(data));
 }
 
 
 
 function loadData() {
+    localStorage.removeItem('data');
     let database_ref = database.ref();
-    database_ref.child('data').get().then((snapshot) => {
+    database_ref.child(user).get().then((snapshot) => {
         if (snapshot.exists()) {
-            // console.log("Data loaded: " + JSON.stringify(snapshot.val()));
+            console.log("Data loaded: " + JSON.stringify(snapshot.val()));
             localStorage.setItem("data", JSON.stringify(snapshot.val()));
             return snapshot.val();
         } else {
             console.log("No data available");
+            data[user] = {
+                dates: [],
+                hltvRating: [],
+                maps: [],
+                winLoss: [],
+                kills: [],
+                deaths: [],
+                adr: []
+            };
+            localStorage.setItem('data', JSON.stringify(data));
         }
     }).catch((error) => {
         console.error(error);
@@ -58,6 +82,9 @@ function loadData() {
 }
 
 loadData();
+
+
+let dates = data[user].dates;
 
 
 const chart = Highcharts.chart('HLTVGraph', {
@@ -77,25 +104,25 @@ const chart = Highcharts.chart('HLTVGraph', {
     },
     series: [{
         name: 'HTLV Rating',
-        data: data.hltvRating
+        data: data[user].hltvRating
     }]
 });
 
 function getAverageRating() {
     let sum = 0;
-    for (let i = 0; i < data.hltvRating.length; i++) {
-        sum += data.hltvRating[i];
+    for (let i = 0; i < data[user].hltvRating.length; i++) {
+        sum += data[user].hltvRating[i];
     }
-    return sum / data.hltvRating.length;
+    return sum / data[user].hltvRating.length;
 }
 
 //get average rating per map
 function getAverageRatingPerMap(map) {
     let sum = 0;
     let count = 0;
-    for (let i = 0; i < data.maps.length; i++) {
-        if (data.maps[i] === map) {
-            sum += data.hltvRating[i];
+    for (let i = 0; i < data[user].maps.length; i++) {
+        if (data[user].maps[i] === map) {
+            sum += data[user].hltvRating[i];
             count++;
         }
     }
@@ -106,11 +133,11 @@ function getWinLossRatio(map) {
     let wins = 0;
     let losses = 0;
     let draws = 0;
-    for (let i = 0; i < data.maps.length; i++) {
-        if (data.maps[i] === map) {
-            if (data.winLoss[i] === 1) {
+    for (let i = 0; i < data[user].maps.length; i++) {
+        if (data[user].maps[i] === map) {
+            if (data[user].winLoss[i] === 1) {
                 wins++;
-            } else if (data.winLoss[i] === 0) {
+            } else if (data[user].winLoss[i] === 0) {
                 losses++;
             } else {
                 draws++;
@@ -236,9 +263,9 @@ Highcharts.chart('winLossGraph', {
             '#3e5ccf'
         ],
         data: [
-            ['Wins', data.winLoss.filter(x => x === 1).length],
-            ['Losses', data.winLoss.filter(x => x === 0).length],
-            ['Draws', data.winLoss.filter(x => x === 0.5).length]
+            ['Wins', data[user].winLoss.filter(x => x === 1).length],
+            ['Losses', data[user].winLoss.filter(x => x === 0).length],
+            ['Draws', data[user].winLoss.filter(x => x === 0.5).length]
         ]
     }]
 });
@@ -339,15 +366,15 @@ function renderStats() {
 
     tempData = document.createElement('p');
     tempData.classList.add('fw-bold', "p-1", "bg-primary", "text-white", "rounded");
-    tempData.textContent = `Total Matches: ${data.maps.length} (${data.winLoss.filter(x => x === 1).length} Wins, ${data.winLoss.filter(x => x === 0).length} Losses, ${data.winLoss.filter(x => x === 0.5).length} Draws)`;
+    tempData.textContent = `Total Matches: ${data[user].maps.length} (${data[user].winLoss.filter(x => x === 1).length} Wins, ${data[user].winLoss.filter(x => x === 0).length} Losses, ${data[user].winLoss.filter(x => x === 0.5).length} Draws)`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('div');
     tempData.classList.add('col', "p-1", "bg-success", "text-white", "rounded", "m-1");
-    tempData.textContent = `Kills: ${data.kills.reduce((a, b) => a + b, 0)}`;
+    tempData.textContent = `Kills: ${data[user].kills.reduce((a, b) => a + b, 0)}`;
     kdaStats.appendChild(tempData);
 
-    let kda = data.kills.reduce((a, b) => a + b, 0) / data.deaths.reduce((a, b) => a + b, 0);
+    let kda = data[user].kills.reduce((a, b) => a + b, 0) / data[user].deaths.reduce((a, b) => a + b, 0);
     tempData = document.createElement('p');
     tempData.classList.add('col', "p-1", "bg-warning", "text-white", "rounded", "m-1");
     tempData.textContent = `KDA: ${kda.toFixed(2)}`;
@@ -355,11 +382,11 @@ function renderStats() {
 
     tempData = document.createElement('div');
     tempData.classList.add('col', "p-1", "bg-danger", "text-white", "rounded", "m-1");
-    tempData.textContent = `Deaths: ${data.deaths.reduce((a, b) => a + b, 0)}`;
+    tempData.textContent = `Deaths: ${data[user].deaths.reduce((a, b) => a + b, 0)}`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
-    tempData.textContent = `Average ADR: ${(data.adr.reduce((a, b) => a + b, 0) / data.adr.length).toFixed(2)}`;
+    tempData.textContent = `Average ADR: ${(data[user].adr.reduce((a, b) => a + b, 0) / data[user].adr.length).toFixed(2)}`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
@@ -367,11 +394,11 @@ function renderStats() {
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
-    tempData.textContent = `Best Performance: ${data.maps[data.hltvRating.indexOf(Math.max(...data.hltvRating))]} with a rating of ${Math.max(...data.hltvRating)}`;
+    tempData.textContent = `Best Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.max(data[user].hltvRating))]} with a rating of ${Math.max(data[user].hltvRating)}`;
     kdaStats.appendChild(tempData);
 
     tempData = document.createElement('p');
-    tempData.textContent = `Worst Performance: ${data.maps[data.hltvRating.indexOf(Math.min(...data.hltvRating))]} with a rating of ${Math.min(...data.hltvRating)}`;
+    tempData.textContent = `Worst Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.min(data[user].hltvRating))]} with a rating of ${Math.min(data[user].hltvRating)}`;
     kdaStats.appendChild(tempData);
 
 
@@ -395,15 +422,15 @@ addDataButton.addEventListener('click', function () {
         alert('Please fill out all fields');
         return;
     }
-    data.dates.push(date);
-    data.hltvRating.push(parseFloat(hltvRating));
-    data.maps.push(map);
-    data.winLoss.push(parseFloat(winLoss));
-    data.kills.push(kills);
-    data.deaths.push(deaths);
-    data.adr.push(adr);
+    data[user].dates.push(date);
+    data[user].hltvRating.push(parseFloat(hltvRating));
+    data[user].maps.push(map);
+    data[user].winLoss.push(parseFloat(winLoss));
+    data[user].kills.push(kills);
+    data[user].deaths.push(deaths);
+    data[user].adr.push(adr);
     console.log(data);
-    //data.leetifyRating.push(parseFloat(leetifyRating));
+    //data[user].leetifyRating.push(parseFloat(leetifyRating));
     localStorage.setItem('data', JSON.stringify(data));
     storeData(data);
     window.location.reload();
@@ -416,10 +443,7 @@ searchUserButton.addEventListener('click', function () {
     setUser(user);
 });
 
-function setUser(user) {
-    localStorage.setItem('user', user);
-    window.location.reload();
-}
+
 
 // fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${apiKey}&steamid=${steamID}>&appid=730`, { mode: 'no-cors' })
 //     .then(response => {
@@ -432,6 +456,9 @@ function init() {
 }
 
 init();
+
+
+
 
 
 
