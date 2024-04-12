@@ -19,7 +19,8 @@
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow mb-4">
     <div class="container-fluid">
-        <a class="navbar-brand fw-bold bg-gradient-primary-to-secondary p-2 rounded text-white pe-3 ps-3 m-1 me-2" href="../index.html">
+        <a class="navbar-brand fw-bold bg-gradient-primary-to-secondary p-2 rounded text-white pe-3 ps-3 m-1 me-2"
+            href="../index.html">
             <i class="bi bi-plug-fill"></i>
             Simple Stats</a>
         <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
@@ -66,6 +67,107 @@
                         <input type="text" class="form-control m-1" id="winLoss" placeholder="Win or Loss (0/1)">
                         <button type="submit" class="btn btn-primary m-1" id="addData">Add Data</button>
                     </div>
+
+                    <div class="card-header text-center">
+                        <h3>Average Stats</h3>
+                    </div>
+                    <div class="card-body container" id="leftStats">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col"></th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average ADR per game (AADR)">AADR</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average kills per game (AKpG)">AKpG</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average deaths per game (ADpG)">ADpG</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average HLTV 2.0 rating per game (AHpG)">AHpG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row"></th>
+                                    <td id="AADR">AADR</td>
+                                    <td id="AKpG">AKpG</td>
+                                    <td id="ADpG">ADpG</td>
+                                    <td id="AHpG">AHpG</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="card-header text-center">
+                        <h3>Average Stats per Map</h3>
+                    </div>
+                    <div class="card-body container" id="leftStats">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Map</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average ADR per game (AADR)">AADR</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average kills per game (AKpG)">AKpG</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average deaths per game (ADpG)">ADpG</th>
+                                    <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
+                                        data-bs-title="Average HLTV 2.0 rating per game (AHpG)">AHpG</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">Overpass</th>
+                                    <td id="oAADR">AADR</td>
+                                    <td id="oAKpG">AKpG</td>
+                                    <td id="oADpG">ADpG</td>
+                                    <td id="oAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Anubis</th>
+                                    <td id="anbAADR">AADR</td>
+                                    <td id="anbAKpG">AKpG</td>
+                                    <td id="anbADpG">ADpG</td>
+                                    <td id="anbAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Nuke</th>
+                                    <td id="nAADR">AADR</td>
+                                    <td id="nAKpG">AKpG</td>
+                                    <td id="nADpG">ADpG</td>
+                                    <td id="nAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Mirage</th>
+                                    <td id="mAADR">AADR</td>
+                                    <td id="mAKpG">AKpG</td>
+                                    <td id="mADpG">ADpG</td>
+                                    <td id="mAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Ancient</th>
+                                    <td id="ancAADR">AADR</td>
+                                    <td id="ancAKpG">AKpG</td>
+                                    <td id="ancADpG">ADpG</td>
+                                    <td id="ancAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Inferno</th>
+                                    <td id="iAADR">AADR</td>
+                                    <td id="iAKpG">AKpG</td>
+                                    <td id="iADpG">ADpG</td>
+                                    <td id="iAHpG">AHpG</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Vertigo</th>
+                                    <td id="vAADR">AADR</td>
+                                    <td id="vAKpG">AKpG</td>
+                                    <td id="vADpG">ADpG</td>
+                                    <td id="vAHpG">AHpG</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
             <div class="col-6">
@@ -89,17 +191,17 @@
             </div>
             <div class="col-4">
                 <div class="card m-3 shadow" id="playerCard">
-                    <div class="card-header text-center">
+                    <!-- <div class="card-header text-center">
                         <h3>Stats</h3>
-                    </div>
+                    </div> -->
                     <div class="card-body text-center">
                         <div id="winLossGraph"></div>
                     </div>
-                    <div class="card-body text-center">
-                        <div class="container row" id="kdaStats"></div>
-                    </div>
-                    <div class="card-body text-center">
+                    <div class="card-body text-center mt-3">
                         <div class="container row" id="ADRGraph"></div>
+                    </div>
+                    <div class="card-body text-center mt-5">
+                        <div class="container row" id="kpgdpgGraph"></div>
                     </div> 
                 </div>
             </div>
