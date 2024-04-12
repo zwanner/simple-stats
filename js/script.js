@@ -1,6 +1,9 @@
 
 let data = JSON.parse(localStorage.getItem('data'));
 
+const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
 
 const firebaseConfig = {
 
@@ -304,8 +307,6 @@ Highcharts.chart('winLossGraph', {
 });
 
 
-
-
 // Create the chart
 Highcharts.chart('winpercentagePerMapBarChart', {
     chart: {
@@ -395,48 +396,155 @@ Highcharts.chart('winpercentagePerMapBarChart', {
 
 });
 
+Highcharts.chart('kpgdpgGraph', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Kills and Deaths per Map',
+        align: 'center'
+    },
+    xAxis: {
+        categories: ['Overpass', 'Anubis', 'Nuke', 'Mirage', 'Ancient', 'Inferno', 'Vertigo']
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'Percent'
+        }
+    },
+    tooltip: {
+        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+        shared: true
+    },
+    plotOptions: {
+        column: {
+            stacking: 'percent',
+            dataLabels: {
+                enabled: true,
+                format: '{point.percentage:.0f}%'
+            }
+        }
+    },
+    series: [{
+        name: 'Kills',
+        data: [
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0),
+            data[user].kills.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0)
+        ]
+    }, {
+        name: 'Deaths',
+        data: [
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0),
+            data[user].deaths.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0)
+        ]
+    }]
+});
+
+
 
 function renderStats() {
-    const kdaStats = document.getElementById('kdaStats');
+    const kdaStats = document.getElementById('leftStats');
     let tempData = document.createElement('p');
 
-    tempData = document.createElement('p');
-    tempData.classList.add('fw-bold', "p-1", "bg-primary", "text-white", "rounded");
-    tempData.textContent = `Total Matches: ${data[user].maps.length} (${data[user].winLoss.filter(x => x === 1).length} Wins, ${data[user].winLoss.filter(x => x === 0).length} Losses, ${data[user].winLoss.filter(x => x === 0.5).length} Draws)`;
-    kdaStats.appendChild(tempData);
+    // tempData = document.createElement('p');
+    // tempData.textContent = `Best Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.max(data[user].hltvRating))]} with a rating of ${Math.max(data[user].hltvRating)}`;
+    // kdaStats.appendChild(tempData);
 
-    tempData = document.createElement('div');
-    tempData.classList.add('col', "p-1", "bg-success", "text-white", "rounded", "m-1");
-    tempData.textContent = `Kills: ${data[user].kills.reduce((a, b) => a + b, 0)}`;
-    kdaStats.appendChild(tempData);
+    // tempData = document.createElement('p');
+    // tempData.textContent = `Worst Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.min(data[user].hltvRating))]} with a rating of ${Math.min(data[user].hltvRating)}`;
+    // kdaStats.appendChild(tempData);
 
-    let kda = data[user].kills.reduce((a, b) => a + b, 0) / data[user].deaths.reduce((a, b) => a + b, 0);
-    tempData = document.createElement('p');
-    tempData.classList.add('col', "p-1", "bg-warning", "text-white", "rounded", "m-1");
-    tempData.textContent = `KDA: ${kda.toFixed(2)}`;
-    kdaStats.appendChild(tempData);
+    const aadr = document.getElementById('AADR');
+    const akpg = document.getElementById('AKpG');
+    const adpg = document.getElementById('ADpG');
+    const ahpg = document.getElementById('AHpG');
 
-    tempData = document.createElement('div');
-    tempData.classList.add('col', "p-1", "bg-danger", "text-white", "rounded", "m-1");
-    tempData.textContent = `Deaths: ${data[user].deaths.reduce((a, b) => a + b, 0)}`;
-    kdaStats.appendChild(tempData);
+    aadr.textContent = `${(data[user].adr.reduce((a, b) => a + b, 0) / data[user].adr.length).toFixed(2)}`;
+    akpg.textContent = `${(data[user].kills.reduce((a, b) => a + b, 0) / data[user].kills.length).toFixed(2)}`;
+    adpg.textContent = `${(data[user].deaths.reduce((a, b) => a + b, 0) / data[user].deaths.length).toFixed(2)}`;
+    ahpg.textContent = `${(data[user].hltvRating.reduce((a, b) => a + b, 0) / data[user].hltvRating.length).toFixed(2)}`;
 
-    tempData = document.createElement('p');
-    tempData.textContent = `Average ADR: ${(data[user].adr.reduce((a, b) => a + b, 0) / data[user].adr.length).toFixed(2)}`;
-    kdaStats.appendChild(tempData);
 
-    tempData = document.createElement('p');
-    tempData.textContent = `Average HLTV Rating: ${getAverageRating().toFixed(2)}`;
-    kdaStats.appendChild(tempData);
+    const oaadr = document.getElementById('oAADR');
+    const oakpg = document.getElementById('oAKpG');
+    const oadpg = document.getElementById('oADpG');
+    const oahpg = document.getElementById('oAHpG');
 
-    tempData = document.createElement('p');
-    tempData.textContent = `Best Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.max(data[user].hltvRating))]} with a rating of ${Math.max(data[user].hltvRating)}`;
-    kdaStats.appendChild(tempData);
+    oaadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Overpass').length).toFixed(2)}`;
+    oakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Overpass').length).toFixed(2)}`;
+    oadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Overpass').length).toFixed(2)}`;
+    oahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Overpass').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Overpass').length).toFixed(2)}`;
 
-    tempData = document.createElement('p');
-    tempData.textContent = `Worst Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.min(data[user].hltvRating))]} with a rating of ${Math.min(data[user].hltvRating)}`;
-    kdaStats.appendChild(tempData);
+    const anbaadr = document.getElementById('anbAADR');
+    const anbakpg = document.getElementById('anbAKpG');
+    const anbadpg = document.getElementById('anbADpG');
+    const anbahpg = document.getElementById('anbAHpG');
 
+    anbaadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Anubis').length).toFixed(2)}`;
+    anbakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Anubis').length).toFixed(2)}`;
+    anbadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Anubis').length).toFixed(2)}`;
+    anbahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Anubis').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Anubis').length).toFixed(2)}`;
+
+    const naadr = document.getElementById('nAADR');
+    const nakpg = document.getElementById('nAKpG');
+    const nadpg = document.getElementById('nADpG');
+    const nahpg = document.getElementById('nAHpG');
+
+    naadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Nuke').length).toFixed(2)}`;
+    nakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Nuke').length).toFixed(2)}`;
+    nadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Nuke').length).toFixed(2)}`;
+    nahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Nuke').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Nuke').length).toFixed(2)}`;
+
+    const maadr = document.getElementById('mAADR');
+    const makpg = document.getElementById('mAKpG');
+    const madpg = document.getElementById('mADpG');
+    const mahpg = document.getElementById('mAHpG');
+
+    maadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Mirage').length).toFixed(2)}`;
+    makpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Mirage').length).toFixed(2)}`;
+    madpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Mirage').length).toFixed(2)}`;
+    mahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Mirage').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Mirage').length).toFixed(2)}`;
+
+    const ancaadr = document.getElementById('ancAADR');
+    const ancakpg = document.getElementById('ancAKpG');
+    const ancadpg = document.getElementById('ancADpG');
+    const ancahpg = document.getElementById('ancAHpG');
+
+    ancaadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Ancient').length).toFixed(2)}`;
+    ancakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Ancient').length).toFixed(2)}`;
+    ancadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Ancient').length).toFixed(2)}`;
+    ancahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Ancient').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Ancient').length).toFixed(2)}`;
+
+    const iaadr = document.getElementById('iAADR');
+    const iakpg = document.getElementById('iAKpG');
+    const iadpg = document.getElementById('iADpG');
+    const iahpg = document.getElementById('iAHpG');
+
+    iaadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Inferno').length).toFixed(2)}`;
+    iakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Inferno').length).toFixed(2)}`;
+    iadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Inferno').length).toFixed(2)}`;
+    iahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Inferno').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Inferno').length).toFixed(2)}`;
+
+    const vaadr = document.getElementById('vAADR');
+    const vakpg = document.getElementById('vAKpG');
+    const vadpg = document.getElementById('vADpG');
+    const vahpg = document.getElementById('vAHpG');
+    
+    vaadr.textContent = `${(data[user].adr.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].adr.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
+    vakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
+    vadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
+    vahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
 
 }
 
@@ -485,6 +593,8 @@ searchUserButton.addEventListener('click', function () {
     const user = document.getElementById('search').value;
     setUser(user);
 });
+
+
 
 
 
