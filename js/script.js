@@ -457,6 +457,7 @@ function renderStats() {
     const kdaStats = document.getElementById('leftStats');
     let tempData = document.createElement('p');
 
+    
     // tempData = document.createElement('p');
     // tempData.textContent = `Best Performance: ${data[user].maps[data[user].hltvRating.indexOf(Math.max(data[user].hltvRating))]} with a rating of ${Math.max(data[user].hltvRating)}`;
     // kdaStats.appendChild(tempData);
@@ -545,6 +546,23 @@ function renderStats() {
     vakpg.textContent = `${(data[user].kills.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].kills.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
     vadpg.textContent = `${(data[user].deaths.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].deaths.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
     vahpg.textContent = `${(data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Vertigo').reduce((a, b) => a + b, 0) / data[user].hltvRating.filter((x, i) => data[user].maps[i] === 'Vertigo').length).toFixed(2)}`;
+
+    const totalMatches = document.getElementById('totalMatches');
+    totalMatches.textContent = data[user].dates.length;
+    const totalWins = document.getElementById('totalWins');
+    totalWins.textContent = data[user].winLoss.filter(x => x === 1).length;
+    const totalLosses = document.getElementById('totalLosses');
+    totalLosses.textContent = data[user].winLoss.filter(x => x === 0).length;
+    const totalKills = document.getElementById('totalKills');
+    totalKills.textContent = data[user].kills.reduce((a, b) => a + b, 0);
+    const totalDeaths = document.getElementById('totalDeaths');
+    totalDeaths.textContent = data[user].deaths.reduce((a, b) => a + b, 0);
+
+    // total adr and htvl values recorded
+    const totalADR = document.getElementById('totalADR');
+    totalADR.textContent = data[user].adr.reduce((a, b) => a + b, 0).toFixed(2);
+    const totalHLTV = document.getElementById('totalHLTV');
+    totalHLTV.textContent = data[user].hltvRating.reduce((a, b) => a + b, 0).toFixed(2);
 
 }
 
