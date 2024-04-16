@@ -672,6 +672,27 @@ function generateElo() {
 
 generateElo();
 
+//Render W or L for the last 5 games
+function renderLastFive() {
+    const tempData = document.getElementById('lastFive');
+    let winlossString = '';
+    for (let i = data[user].dates.length - 1; i >= data[user].dates.length - 5; i--) {
+        if (data[user].winLoss[i] === 1) {
+            winlossString += `W `;
+        } else if (data[user].winLoss[i] === 0) {
+            winlossString += `L `;
+        } else {
+            winlossString += `T `;
+        }
+    }
+    function reverse(s){
+        return s.split("").reverse().join("");
+    }
+
+    winlossString = reverse(winlossString);
+    tempData.textContent = winlossString;
+}
+renderLastFive();
 
 
 // fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${apiKey}&steamid=${steamID}>&appid=730`, { mode: 'no-cors' })
