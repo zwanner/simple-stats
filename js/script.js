@@ -125,6 +125,7 @@ const chart = Highcharts.chart('HLTVGraph', {
     }]
 });
 
+
 Highcharts.chart('ADRGraph', {
     chart: {
         type: 'line'
@@ -693,6 +694,19 @@ function renderLastFive() {
     tempData.textContent = winlossString;
 }
 renderLastFive();
+
+const deleteDataButton = document.getElementById('deleteData');
+deleteDataButton.addEventListener('click', function () {
+    if(confirm('Are you sure you want to delete the most recent data?') ? deleteNewestData() : console.log('Data not deleted')){
+        console.log('Data deleted');
+        deleteNewestData();
+    } else {
+    return;
+    }
+
+});
+
+
 
 
 // fetch(`https://api.steampowered.com/ISteamUserStats/GetUserStatsForGame/v2/?key=${apiKey}&steamid=${steamID}>&appid=730`, { mode: 'no-cors' })
