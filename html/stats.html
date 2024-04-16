@@ -23,20 +23,17 @@
             href="../index.html">
             <i class="bi bi-plug-fill"></i>
             Simple Stats</a>
-        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button> -->
+        
         <div class="collapse navbar-collapse" id="navbarNav">
-            <!-- <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link text-white bg-secondary rounded me-1" aria-current="page"
-                        href="index.html">Home</a>
-                </li>
-            </ul> -->
         </div>
         <div>
+            
             <ul class="navbar-nav">
+                <a class="navbar-brand fw-bold text-gradient-primary-to-secondary p-1 mt-1 mb-2 me-4 rounded text-white"
+             id="userLabel"></a>
+             <a class="navbar-brand fw-bold text-gradient-primary-to-secondary p-1 mt-1 mb-2 me-4 rounded text-white"
+             id="elo" data-bs-toggle="tooltip" data-bs-placement="bottom"
+             data-bs-title='Simple Stats Elo score based on AADR, AKpG, ADpG, AHpG, and Win-Loss Ratio'></a>
                 <li class="nav-item">
                     <input type="text" class="form-control m-1" id="search" placeholder="Search User">
                 </li>
@@ -63,8 +60,20 @@
                         <input type="text" class="form-control m-1" id="adr" placeholder="ADR">
                         <input type="text" class="form-control m-1" id="kills" placeholder="Kills">
                         <input type="text" class="form-control m-1" id="deaths" placeholder="Deaths">
-                        <input type="text" class="form-control m-1" id="map" placeholder="Map">
-                        <input type="text" class="form-control m-1" id="winLoss" placeholder="Win or Loss (0/1)">
+                        <select class="form-select ms-1" id="map" aria-label="Map">
+                            <option value="Overpass">Overpass</option>
+                            <option value="Anubis">Anubis</option>
+                            <option value="Nuke">Nuke</option>
+                            <option value="Mirage">Mirage</option>
+                            <option value="Ancient">Ancient</option>
+                            <option value="Inferno">Inferno</option>
+                            <option value="Vertigo">Vertigo</option>
+                        </select>
+                        <select class="form-select ms-1 mt-1" id="winLoss" aria-label="Map">
+                            <option value="1">Win</option>
+                            <option value="0">Loss</option>
+                            <option value="0.5">Draw</option>
+                        </select>
                         <button type="submit" class="btn btn-primary m-1" id="addData">Add Data</button>
                     </div>
 
@@ -176,7 +185,7 @@
                             <thead>
                                 <tr class="text-center">
                                     <th scope="col" scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Total Matches Recorded">TM</th>
+                                        data-bs-title="Total Matches Recorded">TM</th>
                                     <th scope="col">Wins</th>
                                     <th scope="col">Losses</th>
                                     <th scope="col">Kills</th>
@@ -202,9 +211,9 @@
                             <thead>
                                 <tr class="text-center">
                                     <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Total ADR Recorded">TADR</th>
+                                        data-bs-title="Total ADR Recorded">TADR</th>
                                     <th scope="col" data-bs-toggle="tooltip" data-bs-placement="top"
-                                    data-bs-title="Total HLTV 2.0 Ratings Recorded">THLTV</th>
+                                        data-bs-title="Total HLTV 2.0 Ratings Recorded">THLTV</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -249,7 +258,7 @@
                     </div>
                     <div class="card-body text-center mt-5">
                         <div class="container row mb-2" id="kpgdpgGraph"></div>
-                    </div> 
+                    </div>
                 </div>
             </div>
         </div>

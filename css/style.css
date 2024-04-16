@@ -1,6 +1,6 @@
 * {
-    opacity: 1;
-    font-family: "Plus Jakarta Sans";
+  opacity: 1;
+  font-family: "Plus Jakarta Sans";
 }
 
 .background-main {
@@ -11,5 +11,9 @@
 }
 
 .data-button {
-    width: 45%;
+  width: 45%;
+}
+
+.form-select {
+  font-family: "Plus Jakarta Sans";
 }

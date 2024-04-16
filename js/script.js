@@ -185,6 +185,14 @@ function getWinLossRatio(map) {
     return wins / (wins + losses + draws);
 }
 
+function getAverageWinLoss() {
+    let sum = 0;
+    for (let i = 0; i < data[user].winLoss.length; i++) {
+        sum += data[user].winLoss[i];
+    }
+    return sum / data[user].winLoss.length;
+}
+
 
 Highcharts.chart('ratingPerMapGraph', {
     chart: {
@@ -564,6 +572,9 @@ function renderStats() {
     const totalHLTV = document.getElementById('totalHLTV');
     totalHLTV.textContent = data[user].hltvRating.reduce((a, b) => a + b, 0).toFixed(2);
 
+    const userLabel = document.getElementById('userLabel');
+    userLabel.textContent = localStorage.getItem('user');
+
 }
 
 
@@ -609,10 +620,57 @@ addDataButton.addEventListener('click', function () {
 const searchUserButton = document.getElementById('searchUser');
 searchUserButton.addEventListener('click', function () {
     const user = document.getElementById('search').value;
+    document.getElementById('search').value = '';
     setUser(user);
+    window.location.reload();
 });
 
 
+function deleteNewestData() {
+    data = JSON.parse(localStorage.getItem('data'));
+    data[user].dates.pop();
+    data[user].hltvRating.pop();
+    data[user].maps.pop();
+    data[user].winLoss.pop();
+    data[user].kills.pop();
+    data[user].deaths.pop();
+    data[user].adr.pop();
+    localStorage.setItem('data', JSON.stringify(data));
+    storeData(data);
+    window.location.reload();
+}
+
+function getAveragekpg() { 
+    let sum = 0;
+    for (let i = 0; i < data[user].kills.length; i++) {
+        sum += data[user].kills[i];
+    }
+    return sum / data[user].kills.length;
+}
+
+function getAverageDpg() {
+    let sum = 0;
+    for (let i = 0; i < data[user].deaths.length; i++) {
+        sum += data[user].deaths[i];
+    }
+    return sum / data[user].deaths.length;
+}
+
+function getAverageADR() {
+    let sum = 0;
+    for (let i = 0; i < data[user].adr.length; i++) {
+        sum += data[user].adr[i];
+    }
+    return sum / data[user].adr.length;
+}
+
+function generateElo() {
+    const elo = document.getElementById('elo');
+    let eloRating = ((getAverageRating() * 100) * (getAverageADR() * 100) * (getAveragekpg() * 100) * (getAverageWinLoss() * 100) / ((getAverageDpg()) *  1000000));
+    elo.textContent = eloRating.toFixed(0);
+}
+
+generateElo();
 
 
 
